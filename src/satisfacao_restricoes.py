@@ -63,7 +63,6 @@ class SatisfacaoRestricoesFowardChecking(SatisfacaoRestricoes):
         dominio_local[var_nao_att] = dominio_novo
       if len(dominio_local[var_nao_att]) == 0:
         return None
-    print(f"{atribuicao_local_2} -> {dominio_local}")
     return dominio_local
 
   def busca_backtracking_foward_checking(self, atribuicao = {}, dominios = {}):
@@ -79,6 +78,7 @@ class SatisfacaoRestricoesFowardChecking(SatisfacaoRestricoes):
     variaveis_nao_atribuida  = [v for v in self.variaveis if v not in atribuicao]
 
     primeira_variavel = variaveis_nao_atribuida[0]
+    
     for valor in dominios[primeira_variavel]:
       atribuicao_local = atribuicao.copy()
       dominio_local = dominios.copy()
@@ -96,4 +96,89 @@ class SatisfacaoRestricoesFowardChecking(SatisfacaoRestricoes):
         if resultado is not None:
           return resultado
     return None
+
+  # Minimum remaining values
+  def busca_backtracking_foward_checking_MRV(self, atribuicao = {}, dominios = {}):
+    # retorna sucesso quando todas as variáveis forem atribuídas
+    if len(atribuicao) == len(self.variaveis):
+      return atribuicao
+
+    # se dominio for vazio, pega o da classe, senão, usa o da recursão
+    if dominios == {} :
+      dominios = self.dominios
+    
+    # pega todas as variáveis que ainda não foram atribuídas
+    variaveis_nao_atribuida  = [v for v in self.variaveis if v not in atribuicao]
+
+    # #MRV
+    aux = [(v,len(dominios[v])) for v in variaveis_nao_atribuida] #[(var, dom)]
+    
+    aux = sorted(aux,key=lambda aux : aux[1])
+  
+    variaveis_nao_atribuida = keyToList(aux)
+    #FIM MRV
+
+    primeira_variavel = variaveis_nao_atribuida[0]
+    
+    for valor in dominios[primeira_variavel]:
+      atribuicao_local = atribuicao.copy()
+      dominio_local = dominios.copy()
+      variaveis_nao_atribuida_local = variaveis_nao_atribuida.copy()
+      atribuicao_local[primeira_variavel] = valor
       
+      # estamos consistentes, seguir recursão
+      if self.esta_consistente(primeira_variavel, atribuicao_local):
+
+        novo_dominio = self.forward_checking(variaveis_nao_atribuida_local, atribuicao_local, dominio_local)
+        resultado = None
+        if novo_dominio != None:
+          resultado  = self.busca_backtracking_foward_checking_MRV(atribuicao_local, novo_dominio)
+        # para o backtracking se não encontra todos os resultados
+        if resultado is not None:
+          return resultado
+    return None
+# MostContraining Values
+  def busca_backtracking_foward_checking_MCV(self, atribuicao = {}, dominios = {}):
+    # retorna sucesso quando todas as variáveis forem atribuídas
+    if len(atribuicao) == len(self.variaveis):
+      return atribuicao
+
+    # se dominio for vazio, pega o da classe, senão, usa o da recursão
+    if dominios == {} :
+      dominios = self.dominios
+    
+    # pega todas as variáveis que ainda não foram atribuídas
+    variaveis_nao_atribuida  = [v for v in self.variaveis if v not in atribuicao]
+
+    # #MCV
+    aux = [(v,len(self.restricoes[v])) for v in variaveis_nao_atribuida] #[(var, res)]
+    
+    aux = sorted(aux,key=lambda aux : aux[1],reverse=True)
+    print(aux)
+    variaveis_nao_atribuida = keyToList(aux)
+    
+    #FIM MCV
+
+    primeira_variavel = variaveis_nao_atribuida[0]
+    
+    for valor in dominios[primeira_variavel]:
+      atribuicao_local = atribuicao.copy()
+      dominio_local = dominios.copy()
+      variaveis_nao_atribuida_local = variaveis_nao_atribuida.copy()
+      atribuicao_local[primeira_variavel] = valor
+      
+      # estamos consistentes, seguir recursão
+      if self.esta_consistente(primeira_variavel, atribuicao_local):
+
+        novo_dominio = self.forward_checking(variaveis_nao_atribuida_local, atribuicao_local, dominio_local)
+        resultado = None
+        if novo_dominio != None:
+          resultado  = self.busca_backtracking_foward_checking_MCV(atribuicao_local, novo_dominio)
+        # para o backtracking se não encontra todos os resultados
+        if resultado is not None:
+          return resultado
+    return None
+
+
+def keyToList(values):
+  return [v[0] for v in values]

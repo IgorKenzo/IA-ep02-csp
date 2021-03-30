@@ -78,11 +78,12 @@ if __name__ == "__main__":
     problema.adicionar_restricao(RestricaoAdjascente("Antílope","Leão"))
     problema.adicionar_restricao(RestricaoAdjascente("Antílope","Tigre"))
 
-    #print([v.__str__() + " -> " + len(problema.restricoes[v]).__str__() for v in problema.variaveis])
+    # print([v.__str__() + " -> " + len(problema.restricoes[v]).__str__() for v in problema.variaveis])
 
     
-    resposta = problema.busca_backtracking_foward_checking()
-    #resposta1 = problema.busca_backtracking_MRV()
+    #resposta = problema.busca_backtracking_foward_checking()
+    # resposta = problema.busca_backtracking_foward_checking_MRV()
+    resposta = problema.busca_backtracking_foward_checking_MCV()
     if resposta is None:
         print("Nenhuma resposta encontrada")
     else:
