@@ -1,2 +1,2 @@
-# LFA-ep02-csp
-EP 02 - LFA - CSP Zoológico
+# IA-ep02-csp
+EP 02 - IA - CSP Zoológico
