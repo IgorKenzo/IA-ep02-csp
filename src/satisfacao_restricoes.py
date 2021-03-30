@@ -1,3 +1,5 @@
+from UI import bcolors
+
 class Restricao():
     def __init__(self, variaveis):
         self.variaveis = variaveis
@@ -42,10 +44,14 @@ class SatisfacaoRestricoes():
       atribuicao_local[primeira_variavel] = valor
       # estamos consistentes, seguir recursão
       if self.esta_consistente(primeira_variavel, atribuicao_local):
-        resultado  = self.busca_backtracking(atribuicao_local)
+        print(atribuicao_local)
+
+        resultado  = self.busca_backtracking(atribuicao_local)        
         # para o backtracking se não encontra todos os resultados
         if resultado is not None:
           return resultado
+
+    print(f"{bcolors.WARNING}back{bcolors.ENDC}")
     return None
 
 
@@ -87,6 +93,7 @@ class SatisfacaoRestricoesFowardChecking(SatisfacaoRestricoes):
       
       # estamos consistentes, seguir recursão
       if self.esta_consistente(primeira_variavel, atribuicao_local):
+        print(atribuicao_local)
 
         novo_dominio = self.forward_checking(variaveis_nao_atribuida_local, atribuicao_local, dominio_local)
         resultado = None
@@ -95,6 +102,8 @@ class SatisfacaoRestricoesFowardChecking(SatisfacaoRestricoes):
         # para o backtracking se não encontra todos os resultados
         if resultado is not None:
           return resultado
+
+    print(f"{bcolors.WARNING}back{bcolors.ENDC}")
     return None
 
   # Minimum remaining values
@@ -128,6 +137,7 @@ class SatisfacaoRestricoesFowardChecking(SatisfacaoRestricoes):
       
       # estamos consistentes, seguir recursão
       if self.esta_consistente(primeira_variavel, atribuicao_local):
+        print(atribuicao_local)
 
         novo_dominio = self.forward_checking(variaveis_nao_atribuida_local, atribuicao_local, dominio_local)
         resultado = None
@@ -136,7 +146,10 @@ class SatisfacaoRestricoesFowardChecking(SatisfacaoRestricoes):
         # para o backtracking se não encontra todos os resultados
         if resultado is not None:
           return resultado
+
+    print(f"{bcolors.WARNING}back{bcolors.ENDC}")
     return None
+
 # MostContraining Values
   def busca_backtracking_foward_checking_MCV(self, atribuicao = {}, dominios = {}):
     # retorna sucesso quando todas as variáveis forem atribuídas
@@ -169,6 +182,7 @@ class SatisfacaoRestricoesFowardChecking(SatisfacaoRestricoes):
       
       # estamos consistentes, seguir recursão
       if self.esta_consistente(primeira_variavel, atribuicao_local):
+        print(atribuicao_local)
 
         novo_dominio = self.forward_checking(variaveis_nao_atribuida_local, atribuicao_local, dominio_local)
         resultado = None
@@ -177,6 +191,8 @@ class SatisfacaoRestricoesFowardChecking(SatisfacaoRestricoes):
         # para o backtracking se não encontra todos os resultados
         if resultado is not None:
           return resultado
+
+    print(f"{bcolors.WARNING}back{bcolors.ENDC}")
     return None
 
 

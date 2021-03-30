@@ -1,4 +1,5 @@
 from satisfacao_restricoes import Restricao, SatisfacaoRestricoes, SatisfacaoRestricoesFowardChecking
+from UI import bcolors
 
 class RestricaoDiferentes(Restricao):
     def __init__(self, x1, x2, x3, x4):
@@ -78,13 +79,32 @@ if __name__ == "__main__":
     problema.adicionar_restricao(RestricaoAdjascente("Antílope","Leão"))
     problema.adicionar_restricao(RestricaoAdjascente("Antílope","Tigre"))
 
-    # print([v.__str__() + " -> " + len(problema.restricoes[v]).__str__() for v in problema.variaveis])
-
-    
+    #resposta = problema.busca_backtracking()
     #resposta = problema.busca_backtracking_foward_checking()
-    # resposta = problema.busca_backtracking_foward_checking_MRV()
-    resposta = problema.busca_backtracking_foward_checking_MCV()
+    resposta = problema.busca_backtracking_foward_checking_MRV()
+    #resposta = problema.busca_backtracking_foward_checking_MCV()
     if resposta is None:
-        print("Nenhuma resposta encontrada")
+        print(f"{bcolors.FAIL}Nenhuma resposta encontrada{bcolors.ENDC}")
     else:
-        print(resposta)
+        print(f"{bcolors.OKGREEN}{resposta}{bcolors.ENDC}")
+
+# if __name__ == "__main__":
+#     variaveis = ["Simba",	"Scar"]
+#     dominios = {}
+#     for variavel in variaveis:
+#       dominios[variavel] = [1, 2]
+#     problema = SatisfacaoRestricoesFowardChecking(variaveis, dominios)
+
+#     #Restrição
+#     problema.adicionar_restricao(RestricaoPreferenciaJaula("Simba", 1))
+#     problema.adicionar_restricao(RestricaoPreferenciaJaula("Scar", 1))
+#     problema.adicionar_restricao(RestricaoNaMesmaJaula("Simba","Scar"))
+
+#     resposta = problema.busca_backtracking()
+#     #resposta = problema.busca_backtracking_foward_checking()
+#     #resposta = problema.busca_backtracking_foward_checking_MRV()
+#     #resposta = problema.busca_backtracking_foward_checking_MCV()
+#     if resposta is None:
+#         print(f"{bcolors.FAIL}Nenhuma resposta encontrada{bcolors.ENDC}")
+#     else:
+#         print(f"{bcolors.OKGREEN}{resposta}{bcolors.ENDC}")
